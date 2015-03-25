@@ -88,6 +88,6 @@ class TimePicker extends DatePicker
             //$view->registerJs("jQuery.timepicker.setDefaults(jQuery.timepicker.regional['{$this->language}']);");
         }
 
-        $view->registerJs("jQuery('$selector').' . $this->mode . 'picker($settings);");
+        $view->registerJs("jQuery('$selector').{$this->mode}picker($settings);");
     }
 }
