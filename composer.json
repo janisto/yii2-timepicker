@@ -1,0 +1,38 @@
+{
+    "name": "janisto/yii2-timepicker",
+    "description": "Yii 2 widget for jQuery Timepicker Addon.",
+    "keywords": ["yii2", "timepicker", "date", "time", "datetime", "widget", "extension"],
+    "homepage": "https://github.com/janisto/yii2-timepicker",
+    "type": "yii2-extension",
+    "license": "public domain",
+    "authors": [
+        {
+            "name": "Jani Mikkonen",
+            "email": "janisto@php.net"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/janisto/yii2-timepicker/issues?state=open",
+        "source": "https://github.com/janisto/yii2-timepicker"
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "*",
+        "yiisoft/yii2-jui": "*",
+        "bower-asset/jqueryui-timepicker-addon": ">=1.5.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*",
+        "scrutinizer/ocular": "~1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "janisto\\timepicker\\": "src"
+        }
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "bower-asset-library": "vendor/bower"
+        }
+    }
+}
