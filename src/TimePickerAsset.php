@@ -7,7 +7,7 @@ class TimePickerAsset extends \yii\web\AssetBundle
     /**
      * @inheritdoc
      */
-    public $sourcePath = '@bower/jqueryui-timepicker-addon';
+    public $sourcePath = '@bower/jqueryui-timepicker-addon/dist';
 
     /**
      * @inheritdoc
