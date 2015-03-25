@@ -52,7 +52,6 @@ class TimePicker extends DatePicker
         if ($this->language === null && ($language = Yii::$app->language) !== 'en-US') {
             $this->language = substr($language, 0, 2);
         }
-
     }
 
     /**
