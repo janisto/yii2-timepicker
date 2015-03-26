@@ -30,7 +30,7 @@ to the require section of your application's `composer.json` file.
 
 See [jQuery Timepicker](http://trentrichardson.com/examples/timepicker/#tp-options) options.
 
-For example to use the timepicker with a [[yii\base\Model|model]]:
+For example to use the timepicker with a `yii\base\Model`:
 
 ```php
 echo TimePicker::widget([
@@ -57,7 +57,7 @@ echo TimePicker::widget([
 ]);
 ```
 
-You can also use this widget in an [[yii\widgets\ActiveForm|ActiveForm]] using the [[yii\widgets\ActiveField::widget()|widget()]]
+You can also use this widget in an `yii\widgets\ActiveForm` using the `yii\widgets\ActiveField::widget()`
 method, for example like this:
 
 ```php
