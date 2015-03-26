@@ -28,6 +28,50 @@ to the require section of your application's `composer.json` file.
 
 ## Usage
 
+See [jQuery Timepicker](http://trentrichardson.com/examples/timepicker/#tp-options) options.
+
+For example to use the timepicker with a [[yii\base\Model|model]]:
+
+```php
+echo TimePicker::widget([
+     //'language' => 'fi',
+    'model' => $model,
+    'attribute' => 'created_at',
+    'mode' => 'datetime',
+    'clientOptions'=>[
+        'dateFormat' => 'yy-mm-dd',
+        'timeFormat' => 'HH:mm:ss',
+        'showSecond' => true,
+    ]
+]);
+```
+
+The following example will use the name property instead:
+
+```php
+echo TimePicker::widget([
+     //'language' => 'fi',
+    'name'  => 'from_time',
+    'value'  => $value,
+    'mode' => 'time',
+]);
+```
+
+You can also use this widget in an [[yii\widgets\ActiveForm|ActiveForm]] using the [[yii\widgets\ActiveField::widget()|widget()]]
+method, for example like this:
+
+```php
+echo $form->field($model, 'field')->widget(\janisto\timepicker\TimePicker::className(), [
+    //'language' => 'fi',
+    'mode' => 'datetime',
+    'clientOptions'=>[
+        'dateFormat' => 'yy-mm-dd',
+        'timeFormat' => 'HH:mm:ss',
+        'showSecond' => true,
+    ]
+]);
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
