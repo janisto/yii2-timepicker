@@ -14,7 +14,7 @@ use yii\jui\JuiAsset;
  * TimePicker renders a `timepicker` {@link https://github.com/trentrichardson/jQuery-Timepicker-Addon jQuery Timepicker} widget.
  * See {@link http://trentrichardson.com/examples/timepicker/#tp-options jQuery Timepicker} options.
  *
- * For example to use the timepicker with a [[yii\base\Model|model]]:
+ * For example to use the timepicker with a `yii\base\Model`:
  *
  * ```php
  * echo TimePicker::widget([
@@ -41,7 +41,7 @@ use yii\jui\JuiAsset;
  * ]);
  * ```
  *
- * You can also use this widget in an [[yii\widgets\ActiveForm|ActiveForm]] using the [[yii\widgets\ActiveField::widget()|widget()]]
+ * You can also use this widget in an `yii\widgets\ActiveForm` using the `yii\widgets\ActiveField::widget()`
  * method, for example like this:
  *
  * ```php
