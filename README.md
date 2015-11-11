@@ -38,10 +38,24 @@ echo TimePicker::widget([
     'model' => $model,
     'attribute' => 'created_at',
     'mode' => 'datetime',
-    'clientOptions'=>[
+    'clientOptions' => [
         'dateFormat' => 'yy-mm-dd',
         'timeFormat' => 'HH:mm:ss',
         'showSecond' => true,
+    ]
+]);
+```
+
+```php
+echo TimePicker::widget([
+    //'language' => 'fi',
+    'model' => $model,
+    'attribute' => 'created_at',
+    'mode' => 'datetime',
+    'inline' => true,
+    'clientOptions' => [
+        'onClose' => new \yii\web\JsExpression('function(dateText, inst) { console.log("onClose: " + dateText); }'),
+        'onSelect' => new \yii\web\JsExpression('function(dateText, inst) { console.log("onSelect: " + dateText); }'),
     ]
 ]);
 ```
@@ -54,6 +68,11 @@ echo TimePicker::widget([
     'name'  => 'from_time',
     'value'  => $value,
     'mode' => 'time',
+    'clientOptions' => [
+        'hour' => date('H'),
+        'minute' => date('i'),
+        'second' => date('s'),
+    ]
 ]);
 ```
 
@@ -64,7 +83,7 @@ method, for example like this:
 echo $form->field($model, 'field')->widget(\janisto\timepicker\TimePicker::className(), [
     //'language' => 'fi',
     'mode' => 'datetime',
-    'clientOptions'=>[
+    'clientOptions' => [
         'dateFormat' => 'yy-mm-dd',
         'timeFormat' => 'HH:mm:ss',
         'showSecond' => true,
