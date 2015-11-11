@@ -18,7 +18,7 @@
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "*",
-        "yiisoft/yii2-jui": "*",
+        "yiisoft/yii2-jui": ">=2.0.4",
         "bower-asset/jqueryui-timepicker-addon": ">=1.5.2"
     },
     "require-dev": {

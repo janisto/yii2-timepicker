@@ -4,11 +4,9 @@ namespace janisto\timepicker;
 
 use Yii;
 use yii\base\InvalidConfigException;
-use yii\helpers\Json;
 use yii\helpers\Html;
 use yii\jui\DatePicker;
 use yii\jui\DatePickerLanguageAsset;
-use yii\jui\JuiAsset;
 
 /**
  * TimePicker renders a `timepicker` {@link https://github.com/trentrichardson/jQuery-Timepicker-Addon jQuery Timepicker} widget.
@@ -22,10 +20,24 @@ use yii\jui\JuiAsset;
  *     'model' => $model,
  *     'attribute' => 'created_at',
  *     'mode' => 'datetime',
- *     'clientOptions'=>[
+ *     'clientOptions' => [
  *         'dateFormat' => 'yy-mm-dd',
  *         'timeFormat' => 'HH:mm:ss',
  *         'showSecond' => true,
+ *     ]
+ * ]);
+ * ```
+ *
+ * ```php
+ * echo TimePicker::widget([
+ *      //'language' => 'fi',
+ *     'model' => $model,
+ *     'attribute' => 'created_at',
+ *     'mode' => 'datetime',
+ *     'inline' => true,
+ *     'clientOptions' => [
+ *         'onClose' => new \yii\web\JsExpression('function(dateText, inst) { console.log("onClose: " + dateText); }'),
+ *         'onSelect' => new \yii\web\JsExpression('function(dateText, inst) { console.log("onSelect: " + dateText); }'),
  *     ]
  * ]);
  * ```
@@ -35,9 +47,14 @@ use yii\jui\JuiAsset;
  * ```php
  * echo TimePicker::widget([
  *      //'language' => 'fi',
- *     'name'  => 'from_time',
- *     'value'  => $value,
+ *     'name' => 'from_time',
+ *     'value' => $value,
  *     'mode' => 'time',
+ *     'clientOptions' => [
+ *         'hour' => date('H'),
+ *         'minute' => date('i'),
+ *         'second' => date('s'),
+ *     ]
  * ]);
  * ```
  *
@@ -48,7 +65,7 @@ use yii\jui\JuiAsset;
  * echo $form->field($model, 'field')->widget(\janisto\timepicker\TimePicker::className(), [
  *     //'language' => 'fi',
  *     'mode' => 'datetime',
- *     'clientOptions'=>[
+ *     'clientOptions' => [
  *         'dateFormat' => 'yy-mm-dd',
  *         'timeFormat' => 'HH:mm:ss',
  *         'showSecond' => true,
@@ -86,18 +103,12 @@ class TimePicker extends DatePicker
     public function init()
     {
         parent::init();
-        if (!in_array($this->mode, array('date', 'time', 'datetime'))) {
+        if (!in_array($this->mode, ['date', 'time', 'datetime'])) {
             throw new InvalidConfigException('Unknown mode: "' . $this->mode . '". Use time, datetime or date!');
-        }
-        if ($this->inline && !isset($this->containerOptions['id'])) {
-            $this->containerOptions['id'] = $this->options['id'] . '-container';
         }
         if ($this->size) {
             Html::addCssClass($this->options, 'input-' . $this->size);
             Html::addCssClass($this->containerOptions, 'input-group-' . $this->size);
-        }
-        if ($this->language === null && ($language = Yii::$app->language) !== 'en-US') {
-            $this->language = substr($language, 0, 2);
         }
         Html::addCssClass($this->options, 'form-control');
         Html::addCssClass($this->containerOptions, 'input-group ' . $this->mode);
@@ -111,11 +122,6 @@ class TimePicker extends DatePicker
         if ($this->mode == 'date') {
             $this->clientOptions['showTime'] = false;
         }
-
-        // Set current time
-        $this->clientOptions['hour'] = date('H');
-        $this->clientOptions['minute'] = date('i');
-        $this->clientOptions['second'] = date('s');
 
         if ($this->inline === false) {
             if ($this->hasModel()) {
@@ -154,20 +160,17 @@ class TimePicker extends DatePicker
     {
         $view = $this->getView();
         $containerID = $this->inline ? $this->containerOptions['id'] : $this->options['id'];
-        $options = !empty($this->clientOptions) ? Json::encode($this->clientOptions) : '';
-        $asset = TimePickerAsset::register($view);
-        if ($this->language !== null) {
-            $asset->language = $this->language;
-            $bundle = DatePickerLanguageAsset::register($view);
-            $view->registerJsFile($bundle->baseUrl . "/ui/i18n/datepicker-{$this->language}.js", [
-                'depends' => [JuiAsset::className()],
-            ]);
+        $language = $this->language ? $this->language : Yii::$app->language;
+        $name = $this->mode . 'picker';
+
+        $timeAssetBundle = TimePickerAsset::register($view);
+        if ($language !== 'en-US') {
+            $timeAssetBundle->language = $language;
+            $dateAssetBundle = DatePickerLanguageAsset::register($view);
+            $dateAssetBundle->language = $language;
         }
-        if (!empty($this->clientEvents)) {
-            foreach ($this->clientEvents as $event => $handler) {
-                $view->registerJs("jQuery('#$containerID').on('$event', $handler);");
-            }
-        }
-        $view->registerJs("jQuery('#$containerID').{$this->mode}picker($options);");
+
+        $this->registerClientOptions($name, $containerID);
+        $this->registerClientEvents($name, $containerID);
     }
 }

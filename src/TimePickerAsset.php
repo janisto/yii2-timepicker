@@ -2,23 +2,23 @@
 
 namespace janisto\timepicker;
 
-class TimePickerAsset extends \yii\web\AssetBundle
+use Yii;
+use yii\web\AssetBundle;
+
+class TimePickerAsset extends AssetBundle
 {
     /**
      * @inheritdoc
      */
     public $sourcePath = '@bower/jqueryui-timepicker-addon/dist';
-
     /**
      * @inheritdoc
      */
     public $depends = [
-        'yii\web\JqueryAsset',
-        'yii\jui\JuiAsset'
+        'yii\jui\JuiAsset',
     ];
-
     /**
-     * @var string jQuery Timepicker language
+     * @var string language to register translation file for
      */
     public $language;
 
@@ -30,8 +30,14 @@ class TimePickerAsset extends \yii\web\AssetBundle
         $this->css[] = 'jquery-ui-timepicker-addon' . (YII_DEBUG ? '' : '.min') . '.css';
         $this->js[] = 'jquery-ui-timepicker-addon' . (YII_DEBUG ? '' : '.min') . '.js';
 
-        if ($this->language !== null) {
-            $this->js[] = 'i18n/jquery-ui-timepicker-' . $this->language . '.js';
+        $language = $this->language;
+
+        if ($language !== null && $language !== 'en-US') {
+            $fallbackLanguage = substr($language, 0, 2);
+            if ($fallbackLanguage !== $language && !file_exists(Yii::getAlias($this->sourcePath . "/i18n/jquery-ui-timepicker-{$language}.js"))) {
+                $language = $fallbackLanguage;
+            }
+            $this->js[] = "i18n/jquery-ui-timepicker-{$language}.js";
         }
 
         parent::registerAssetFiles($view);
