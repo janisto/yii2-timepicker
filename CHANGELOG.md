@@ -2,7 +2,7 @@
 
 All Notable changes to `yii2-timepicker` will be documented in this file.
 
-## 1.0.1 - XXXX-XX-XX
+## 1.1.0 - 2015-11-12
 
 ### Fixed
 - Added fallback for timepicker language files
